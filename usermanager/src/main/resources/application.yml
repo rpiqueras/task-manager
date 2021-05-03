@@ -1,0 +1,7 @@
+spring:
+  output:
+    ansi:
+      # Activamos los colorines al arranque   
+      enabled: ALWAYS
+  application:
+    name: usermanager

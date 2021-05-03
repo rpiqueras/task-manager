@@ -1,0 +1,29 @@
+version: "3"
+services:
+  taskmanager:
+    image: 'usermanager'
+    ports:
+      - "8081:8081"
+    container_name: taskmanager-c
+    environment:
+      - "SPRING_PROFILES_ACTIVE=local"
+    links:
+      - mongo
+    depends_on:
+      - mongo
+    networks:
+      - shared-net
+
+  mongo:
+    image: 'mongo'
+    ports:
+      - 27017:27017
+    container_name: mongo
+    volumes:
+      - ./database:/database
+    networks:
+      - shared-net
+
+networks:
+  shared-net:
+    driver: bridge

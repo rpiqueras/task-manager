@@ -1,0 +1,239 @@
+openapi: '3.0.1'
+info:
+  title: 'ms_taskmanager_usermanager'
+  description: 'Servicio encargado de gestionar usuarios'
+  version: '0.0.1'
+servers:
+  - url: 'http://localhost:8081/{basePath}'
+    variables:
+      basePath:
+        default: '/usermanager/v1'
+  - url: 'https://pordeterminarparapro/{basePath}'
+    variables:
+      basePath:
+        default: '/usermanager/v1'
+paths:
+  '/users':
+    get:
+      tags:
+        - 'Users operations'
+      summary: 'Get all the users'
+      description: 'Get all the users'
+      responses:
+        200:
+          description: 'Users returned'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_users_response'
+        500:
+          description: 'Server error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+    post:
+      tags:
+        - 'Users operations'
+      summary: 'Add a new user'
+      description: 'Add a new user'
+      requestBody:
+        description: 'The data of the new user to create'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/add_user_request'
+        required: true
+      responses:
+        200:
+          description: 'User created'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/add_user_response'
+        400:
+          description: 'Invalid input parameter'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: error general
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  '/users/{userId}':
+    get:
+      tags:
+        - 'Users operations'
+      parameters:
+        - in: path
+          name: 'userId'
+          schema:
+            type: string
+          required: true
+          description: 'Id of the user'
+      summary: 'Get a user by his Id'
+      description: 'Get a user by his Id'
+      responses:
+        200:
+          description: 'User found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_user_response'
+        404:
+          description: 'User not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: 'Server error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+    delete:
+      tags:
+        - 'Users operations'
+      parameters:
+        - in: path
+          name: 'userId'
+          schema:
+            type: string
+          required: true
+          description: 'Id of the user'
+      summary: 'Delete a user by his Id'
+      description: 'Delete a user by his Id'
+      responses:
+        200:
+          description: "User deleted"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/delete_user_response'
+        404:
+          description: 'User not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: 'Server error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+components:
+  schemas:
+    get_users_response:
+      type: object
+      required:
+        - user_dto_list
+      description: 'Response for get users service'
+      properties:
+        user_dto_list:
+          type: array
+          items:
+            $ref: '#/components/schemas/user_dto'
+    get_user_response:
+      type: object
+      required:
+        - user_dto
+      description: 'Response for get user service'
+      properties:
+        user_dto:
+          $ref: '#/components/schemas/user_dto'
+    add_user_response:
+      type: object
+      required:
+        - user_dto
+      description: 'Response for add user service'
+      properties:
+        user_dto:
+          $ref: '#/components/schemas/user_dto'
+    add_user_request:
+      type: object
+      required:
+        - user_dto
+      description: 'Request for add user service'
+      properties:
+        user_dto:
+          $ref: '#/components/schemas/user_dto'
+    delete_user_response:
+      type: object
+      required:
+        - card_token_list
+        - synchronization_status
+      description: 'Response for delete user service'
+      properties:
+        user_dto:
+          $ref: '#/components/schemas/user_dto'
+    user_dto:
+      type: object
+      required:
+        - user_id
+        - name
+        - surname
+        - email
+        - role
+      description: 'Model of the user'
+      properties:
+        user_id:
+          type: string
+          description: 'Identify a user univocally'
+          example: 'rlucena'
+        name:
+          type: string
+          description: 'Name of the user user'
+          example: 'roberto'
+        surname:
+          type: string
+          description: 'Surname of the user'
+          example: 'lucena'
+        email:
+          type: string
+          description: 'Email of the user'
+          example: 'rlucena@gmail.com'
+        role:
+          type: string
+          description: 'Determines the grants for a user'
+          example: 'GUEST'
+          enum:
+            - ADMIN
+            - OWNER
+            - GUEST
+    error:
+      type: object
+      description: 'Model for an error response'
+      properties:
+        error:
+          required:
+            - message
+          type: object
+          description: 'Standard payload'
+          properties:
+            code:
+              type: integer
+              description: 'Code to identify the error given by the apps'
+              example: '01'
+            message:
+              type: string
+              description: 'Fixed text that determines the cause of the error'
+              example: 'Fixed error cause'
+            details:
+              type: array
+              description: 'Object with additional details'
+              items:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    description: 'Error description'
+                    example: 'Null pointer'
+                  field:
+                    type: string
+                    description: 'Field that produced the error'
+                    example: 'object.field'

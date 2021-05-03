@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.rpiqueras.taskmanager</groupId>
+    <artifactId>user-module</artifactId>
+    <version>${revision}</version>
+    <name>user-module</name>
+    <description>Module to manage the users of task manager application</description>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.4.4</version>
+        <relativePath/>
+    </parent>
+
+    <properties>
+        <revision>0.0.1-SNAPSHOT</revision>
+
+        <java.version>8</java.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <junit.version>5.7.0</junit.version>
+        <org.projectlombok.version>1.18.20</org.projectlombok.version>
+    </properties>
+
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>usermanager</module>
+        <module>user-client</module>
+        <module>user-model</module>
+    </modules>
+
+</project>

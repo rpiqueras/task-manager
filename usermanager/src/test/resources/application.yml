@@ -1,0 +1,22 @@
+spring:
+  output:
+    ansi:
+      # Activamos los colorines al arranque   
+      enabled: ALWAYS
+  application:
+    name: usermanager
+  data:
+    mongodb:
+      uri:  mongodb://localhost:27017/?authSource=evolve&readPreference=primary&ssl=false
+      database: taskmanager
+
+microservice:
+  group: rpiqueras
+  subgroup: taskmanager
+
+server:
+  port: 8081
+  
+management:
+  server:
+    port: 8081

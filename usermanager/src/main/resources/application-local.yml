@@ -1,0 +1,17 @@
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      uri: mongodb://localhost:27017/taskmanager
+      user:
+      password:
+      database: taskmanager
+#      auto-index-creation: false
+
+server:
+  port: 8081
+
+management:
+  server:
+    port: 8081
