@@ -19,6 +19,13 @@ public class UserManagerController {
 
     private final UserManagerService userManagerService;
 
+    @GetMapping(value = UrlConstants.PRUEBA_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> prueba() {
+        log.info("Call to prueba controller started");
+        log.info("Call to prueba controller finished");
+        return ResponseEntity.ok("Funciona");
+    }
+
     @GetMapping(value = UrlConstants.GET_USERS_URL, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<UserDTO>> getUsers() {
         log.info("Call to getUsers controller started");

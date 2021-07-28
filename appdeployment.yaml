@@ -1,0 +1,40 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: usermanagerapp-service
+spec:
+  selector:
+    app: usermanagerapp-service
+  ports:
+    - protocol: TCP
+      port: 8081
+      targetPort: 8081
+      nodePort: 30081
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: usermanagerapp
+spec:
+  selector:
+    matchLabels:
+      app: usermanagerapp
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: usermanagerapp
+      name: usermanagerapp-service
+    spec:
+      containers:
+        - name: usermanagerapp-service
+          image: usermanager
+          imagePullPolicy: IfNotPresent
+#          imagePullPolicy: Never
+          ports:
+            - containerPort: 8081
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: docker
+

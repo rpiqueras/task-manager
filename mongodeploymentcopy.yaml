@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: taskmanager
+  name: taskmanager
+spec:
+  ports:
+    - port: 27017
+      targetPort: 27017
+  selector:
+    app: taskmanager
+  clusterIP: None
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: taskmanager
+  labels:
+    app: taskmanager
+spec:
+  selector:
+    matchLabels:
+      app: taskmanager
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: taskmanager
+      name: taskmanager
+    spec:
+      containers:
+        - image: mongo:latest
+          name: taskmanager
+          ports:
+            - containerPort: 27017
+              name: taskmanager

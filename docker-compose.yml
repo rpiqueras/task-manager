@@ -1,29 +1,29 @@
 version: "3"
 services:
-  taskmanager:
+  usermanagerc:
     image: 'usermanager'
     ports:
       - "8081:8081"
-    container_name: taskmanager-c
+    container_name: usermanagerc
     environment:
-      - "SPRING_PROFILES_ACTIVE=local"
+      - "SPRING_PROFILES_ACTIVE=compose"
     links:
-      - mongo
+      - taskmanagerc
     depends_on:
-      - mongo
+      - taskmanagerc
     networks:
-      - shared-net
+      - task-manager-network
 
-  mongo:
+  taskmanagerc:
     image: 'mongo'
     ports:
       - 27017:27017
-    container_name: mongo
+    container_name: taskmanagerc
     volumes:
       - ./database:/database
     networks:
-      - shared-net
+      - task-manager-network
 
 networks:
-  shared-net:
+  task-manager-network:
     driver: bridge
